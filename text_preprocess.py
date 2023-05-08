@@ -10,6 +10,7 @@ import gensim
 import gensim.corpora as corpora
 from gensim.utils import simple_preprocess
 from bs4 import BeautifulSoup 
+from sklearn.metrics import hamming_loss
 
 import time
 import logging
@@ -32,44 +33,6 @@ def text_extract(row) :
         text = text+text_elements[i]
     return text
 
-def Tags_to_list (row) :
-    Tags_list =[]
-    for j in range(5):
-            if row['Tag_'+str(j)] is not np.nan :
-                Tags_list.append(row['Tag_'+str(j)])
-    return Tags_list
-
-def Tags_extract(df) :
-    dict_tags = dict()
-    df['Len_tags'] = int()
-    for i,row in enumerate(df.Tags) :
-        tags  = row.replace('<','').split('>')[0:-1]
-        df.loc[i,'Len_tags'] = len(tags)
-        for j,element in enumerate(tags) :
-            df.loc[i,'Tag_'+str(j)]= element
-            if element in dict_tags.keys():
-                dict_tags[element]['List_id'].append(df.Id[i])
-                dict_tags[element]['List_tags'].append(len(tags)-1)
-            else :
-                dict_tags[element]=dict()
-                dict_tags[element]['List_id'] = [df.Id[i]]
-                dict_tags[element]['List_tags'] = [len(tags)-1]
-    df_tags = pd.DataFrame(index=dict_tags.keys(),columns=['Number_tags','Mean_tags'])
-    for tags in df_tags.index :
-        df_tags.loc[tags,['Number_tags']] = len(dict_tags[tags]['List_id'])
-    df_tags = df_tags.sort_values(['Number_tags'],ascending=False)
-    list_best_tags = df_tags[0:30].index
-    df_best_tags = df_tags.loc[list_best_tags]
-    df_30_tags = pd.concat(df[df['Id'].isin(
-                    dict_tags[tags]['List_id'])] for tags in list_best_tags).drop_duplicates().drop(
-        'Tags',axis=1).reset_index(drop=True)
-    cleaning_df = df_30_tags[['Tag_0','Tag_1','Tag_2','Tag_3','Tag_4']].isin(list_best_tags)
-    for j in range(5):
-        df_30_tags['Tag_'+str(j)][cleaning_df['Tag_'+str(j)]!= True] = np.nan
-    df_30_tags['New_len_tags'] = cleaning_df.sum(axis=1)
-    df_30_tags['Tags'] =  df_30_tags.apply(lambda x : Tags_to_list(x),axis=1)
-    df_30_tags.drop(['Tag_0','Tag_1','Tag_2','Tag_3','Tag_4'],axis=1,inplace=True)
-    return df_best_tags,df_30_tags
 nlp = spacy.load("en_core_web_sm", disable=['parser', 'ner'])
 
 from nltk.corpus import stopwords
@@ -123,6 +86,19 @@ def feature_USE_fct(sentences, b_size) :
     time2 = np.round(time.time() - time1,0)
     return features
 
+def hamming_score(y_true, y_pred, normalize=True, sample_weight=None):
+    acc_list = []
+    for i in range(y_true.shape[0]):
+        set_true = set( np.where(y_true[i])[0] )
+        set_pred = set( np.where(y_pred[i])[0] )
+        tmp_a = None
+        if len(set_true) == 0 and len(set_pred) == 0:
+            tmp_a = 1
+        else:
+            tmp_a = len(set_true.intersection(set_pred))/float(len(set_true.union(set_pred)) )
+        acc_list.append(tmp_a)
+    return np.mean(acc_list)
+
 def transform_text_bow_lem_spacy_fct(desc_text) :
     text = text_extract(desc_text)
     word_tokens = list(sent_to_words(text))
@@ -133,3 +109,4 @@ def transform_text_bow_lem_spacy_fct(desc_text) :
     return transf_desc_text
 
 df_study['Text_Title'] = df_study['Title_bow_lem'].apply(transform_bow_lem_spacy_fct)+' '+df_study['Text_bow_lem'].apply(transform_text_bow_lem_spacy_fct)
+
