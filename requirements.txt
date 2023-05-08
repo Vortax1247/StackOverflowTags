@@ -1,11 +1,4 @@
 
-sklearn.preprocessing 
-import pandas as pd
-import numpy as np
-from text_preprocess import *
-
-import time
-import logging
 Flask==1.1.1
 gunicorn==19.9.0
 numpy>=1.9.2
