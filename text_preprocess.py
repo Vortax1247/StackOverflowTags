@@ -13,6 +13,7 @@ from bs4 import BeautifulSoup
 
 import time
 import logging
+import tensorflow_hub as hub
 
 logging.disable(logging.WARNING) # disable WARNING, INFO and DEBUG logging everywhere
 
@@ -103,6 +104,24 @@ def transform_bow_lem_spacy_fct(desc_text) :
     lem_w = lemmatization_spacy(sw)
     transf_desc_text = ' '.join(lem_w[0])
     return transf_desc_text
+
+embed = hub.load("https://tfhub.dev/google/universal-sentence-encoder/4")
+
+def feature_USE_fct(sentences, b_size) :
+    batch_size = b_size
+    time1 = time.time()
+
+    for step in range(len(sentences)//batch_size) :
+        idx = step*batch_size
+        feat = embed(sentences[idx:idx+batch_size])
+
+        if step ==0 :
+            features = feat
+        else :
+            features = np.concatenate((features,feat))
+
+    time2 = np.round(time.time() - time1,0)
+    return features
 
 def transform_text_bow_lem_spacy_fct(desc_text) :
     text = text_extract(desc_text)
