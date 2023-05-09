@@ -19,18 +19,10 @@ nltk.download('punkt')
 nltk.download('wordnet')
 nltk.download('omw-1.4')
 
-def text_extract(row) : 
-    blocklist = [  'code','pre','a']
-    text_elements = [t for t in BeautifulSoup(row).find_all(
-    string=True) if t.parent.name not in blocklist and t!='\n']
-    text = str()
-    for i in range(len(text_elements)) : 
-        text = text+text_elements[i]
-    return text
-
 nlp = spacy.load("en_core_web_sm", disable=['parser', 'ner'])
 
 from nltk.corpus import stopwords
+
 stop_w = list(set(stopwords.words('english'))) + ['[', ']', ',', '.', ':', '?', '(', ')']
 
 def text_extract(row) :
@@ -63,21 +55,6 @@ def transform_bow_lem_spacy_fct(desc_text) :
     transf_desc_text = ' '.join(lem_w[0])
     return transf_desc_text
 
-def feature_USE_fct(sentences, b_size) :
-    batch_size = b_size
-    time1 = time.time()
-
-    for step in range(len(sentences)//batch_size) :
-        idx = step*batch_size
-        feat = embed(sentences[idx:idx+batch_size])
-
-        if step ==0 :
-            features = feat
-        else :
-            features = np.concatenate((features,feat))
-
-    time2 = np.round(time.time() - time1,0)
-    return features
 
 def hamming_score(y_true, y_pred, normalize=True, sample_weight=None):
     acc_list = []
@@ -107,6 +84,6 @@ def transform_text_bow_lem_spacy_fct(desc_text) :
     transf_desc_text = ' '.join(lem_w[0])
     return transf_desc_text
 def text_processing(df) : 
-    X = df['Title_bow_lem'].apply(transform_bow_lem_spacy_fct)+' '+df['Text_bow_lem'].apply(transform_text_bow_lem_spacy_fct)
+    X = df['Title'].apply(transform_bow_lem_spacy_fct)+' '+df['Body'].apply(transform_text_bow_lem_spacy_fct)
     return X
 
