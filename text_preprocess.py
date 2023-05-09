@@ -12,11 +12,6 @@ from gensim.utils import simple_preprocess
 from bs4 import BeautifulSoup 
 from sklearn.metrics import hamming_loss
 
-import time
-import logging
-import tensorflow_hub as hub
-
-logging.disable(logging.WARNING) # disable WARNING, INFO and DEBUG logging everywhere
 
 spacy.load('en_core_web_sm')
 nltk.download('stopwords')
