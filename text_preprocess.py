@@ -63,8 +63,6 @@ def transform_bow_lem_spacy_fct(desc_text) :
     transf_desc_text = ' '.join(lem_w[0])
     return transf_desc_text
 
-embed = hub.load("https://tfhub.dev/google/universal-sentence-encoder/4")
-
 def feature_USE_fct(sentences, b_size) :
     batch_size = b_size
     time1 = time.time()
