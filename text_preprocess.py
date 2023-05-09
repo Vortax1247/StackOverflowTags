@@ -5,7 +5,7 @@ import nltk
 from nltk.corpus import stopwords
 from nltk.tokenize import sent_tokenize, word_tokenize
 from nltk.stem import WordNetLemmatizer
-
+import spacy
 import gensim
 import gensim.corpora as corpora
 from gensim.utils import simple_preprocess
