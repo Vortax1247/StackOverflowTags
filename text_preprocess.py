@@ -69,10 +69,9 @@ def hamming_score(y_true, y_pred, normalize=True, sample_weight=None):
         acc_list.append(tmp_a)
     return np.mean(acc_list)
 
-def print_score(y_pred, clf):
-    print("Clf: ", clf.__class__.__name__)
-    print("Hamming loss: {}".format(hamming_loss(y_pred, y_test_tfidf)))
-    print("Hamming score: {}".format(hamming_score(y_pred, y_test_tfidf)))
+def print_score(y_test,y_pred ):
+    print("Hamming loss: {}".format(hamming_loss(y_test,y_pred )))
+    print("Hamming score: {}".format(hamming_score(y_test,y_pred )))
     print("---")    
 
 def transform_text_bow_lem_spacy_fct(desc_text) :
