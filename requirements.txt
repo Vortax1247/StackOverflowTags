@@ -9,5 +9,5 @@ tensorflow>1.5
 tensorflow_hub>0.2
 gensim>0.3
 nlp>0.2
-bs4>3
+bs4>1.0
 nltk>3.7
