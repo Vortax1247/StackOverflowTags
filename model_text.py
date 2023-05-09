@@ -15,8 +15,8 @@ y  = pd.read_csv('tags_y_learning.csv').drop('Unnamed: 0',axis=1)
 
 
 multilabel_binarizer = MultiLabelBinarizer()
-multilabel_binarizer.fit(data_T.Tags)
-y = multilabel_binarizer.transform(data_T.Tags)
+multilabel_binarizer.fit(df_study.Tags)
+y = multilabel_binarizer.transform(df_study.Tags)
 
 X = text_preprocessing(df_study)
 model = Pipeline([('tfidf', TfidfVectorizer(max_df=0.5, min_df=5, stop_words="english", max_features = 1000)),
