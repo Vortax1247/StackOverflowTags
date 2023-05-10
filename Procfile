@@ -1,1 +1,1 @@
-web :gunicorn app:model_text
+web :gunicorn app:app
