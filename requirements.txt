@@ -5,8 +5,7 @@ numpy>=1.9.2
 scipy>=0.15.1
 scikit-learn>=0.18
 pandas>=0.19
-tensorflow>1.5
-tensorflow_hub>0.2
+spacy>2.0
 gensim>0.3
 nlp>0.2
 bs4==0.0.0
