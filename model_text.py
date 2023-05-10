@@ -9,8 +9,9 @@ from sklearn.pipeline import Pipeline
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.model_selection import train_test_split
 from sklearn.multiclass import OneVsRestClassifier
+import pickle
 
-df_study  = pd.read_csv("tags_learning.csv").drop('Unnamed: 0',axis=1)
+df_study  = pd.read_json("tags_learning.json")
 y  = pd.read_csv('tags_y_learning.csv').drop('Unnamed: 0',axis=1)
 
 
