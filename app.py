@@ -8,7 +8,11 @@ app = Flask(__name__)
 model = pickle.load(open('model_text.pkl', 'rb'))
 multibinazier = pickle.load(open('binarizer.pkl','rb'))
 
-   
+
+@app.route('/')
+def index():
+    return "<h1>Welcome the StackOverFlowTags-api!</h1>"
+
 @app.route('/results',methods=['POST'])
 def results():
     data = pd.DataFrame(request.get_json())
