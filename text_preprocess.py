@@ -13,16 +13,16 @@ from bs4 import BeautifulSoup
 from sklearn.metrics import hamming_loss
 
 try:
-    nlp = spacy.load("en_core_web_md")
+    nlp = spacy.load("en")
 except: 
-    spacy.cli.download("en_core_web_md")
-    nlp = spacy.load("en_core_web_md")
+    spacy.cli.download("en")
+    nlp = spacy.load("en")
 nltk.download('stopwords')
 nltk.download('punkt')
 nltk.download('wordnet')
 nltk.download('omw-1.4')
 
-nlp = spacy.load("en_core_web_sm", disable=['parser', 'ner'])
+nlp = spacy.load("en", disable=['parser', 'ner'])
 
 from nltk.corpus import stopwords
 
