@@ -18,7 +18,8 @@ nltk.download('punkt')
 nltk.download('wordnet')
 nltk.download('omw-1.4')
 
-nlp = spacy.load("en_web_core_sm", disable=['parser', 'ner'])
+import en_core_web_sm
+nlp = en_core_web_sm.load()
 
 from nltk.corpus import stopwords
 
