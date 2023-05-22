@@ -12,11 +12,7 @@ from gensim.utils import simple_preprocess
 from bs4 import BeautifulSoup 
 from sklearn.metrics import hamming_loss
 
-try:
-    nlp = spacy.load("en_web_core_sm")
-except: 
-    spacy.cli.download("en_web_core_sm")
-    nlp = spacy.load("en_web_core_sm")
+
 nltk.download('stopwords')
 nltk.download('punkt')
 nltk.download('wordnet')
