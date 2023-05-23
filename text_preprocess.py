@@ -82,7 +82,7 @@ def transform_text_bow_lem_spacy_fct(desc_text) :
     sw = remove_stopwords(lem_w)
     transf_desc_text = ' '.join(lem_w[0])
     return transf_desc_text
-def text_processing(df) : 
+def text_preprocessing(df) : 
     X = df['Title'].apply(transform_bow_lem_spacy_fct)+' '+df['Body'].apply(transform_text_bow_lem_spacy_fct)
     return X
 
