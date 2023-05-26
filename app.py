@@ -14,7 +14,7 @@ multibinazier = pickle.load(open('binarizer.pkl','rb'))
 def index():
     return "<h1>Welcome the StackOverFlowTags-api!</h1>"
 
-@app.route('/results',methods=['GET','POST'])
+@app.route('/results',methods=['POST'])
 def results():
     data = pd.DataFrame(request.json)
     prediction = model.predict(text_preprocessing(data))
