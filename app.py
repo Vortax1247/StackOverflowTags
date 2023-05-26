@@ -13,7 +13,7 @@ multibinazier = pickle.load(open('binarizer.pkl','rb'))
 def index():
     return "<h1>Welcome the StackOverFlowTags-api!</h1>"
 
-@app.route('/results',methods=['POST'])
+@app.route('/results',methods=['GET','POST'])
 def results():
 
     return jsonify(request.json)
