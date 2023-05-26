@@ -15,7 +15,5 @@ def index():
 
 @app.route('/results',methods=['POST'])
 def results():
-    data = pd.DataFrame(request.json)
-    prediction = model.predict(text_preprocessing(data))
-    tags = multibinazier.inverse_transform(prediction)
-    return jsonify(tags)
+
+    return jsonify(request.json)
